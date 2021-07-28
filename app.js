@@ -2,7 +2,7 @@
 const todoInput = document.querySelector(".todo-input");
 const todoAdd = document.querySelector(".todo-add");
 const todoList = document.querySelector('.todo-list');
-
+const emptyString = "  ";
 
 
 
@@ -10,12 +10,22 @@ const todoList = document.querySelector('.todo-list');
 todoAdd.addEventListener('click' , todoAddFunction) ;
 todoList.addEventListener('click', deleteCheck)
 
-
+//display saved todos
+document.addEventListener('DOMContentLoaded',function(){
+    if ( !localStorage.getItem('todoSaved')){
+        localStorage.setItem('todoSaved', emptyString);
+    }
+    todoList.innerHTML = localStorage.getItem('todoSaved') ;
+})
 
 
 
 //functions
 function todoAddFunction(event){
+    //restrict empty todo
+    if (todoInput.value === ''){
+        return;
+     }
     //prevent page reload on form submit , e is event
     event.preventDefault();
     //element creation
@@ -43,6 +53,13 @@ function todoAddFunction(event){
     todoDiv.appendChild(delBtn);
     todoList.appendChild(todoDiv);
     todoInput.value='';
+    console.log(todoDiv.innerHTML)
+    //adding todos to loacal storage
+    const todoValue = todoList.innerHTML;
+    console.log(localStorage.getItem("todosaved"))
+    localStorage.setItem("todoSaved",  todoValue);
+
+    
 
 
 
